@@ -52,11 +52,11 @@ const surveyStore = async (req, res) => {
     .withMessage('Values have to be from 0 to 5 ')
     .run(req);
 
-  let resultado = validationResult(req);
+  let resultValidations = validationResult(req);
 
   //__________comprobando si el formlario es vacio
-  if (!resultado.isEmpty()) {
-    return res.status(500).send(resultado);
+  if (!resultValidations.isEmpty()) {
+    return res.status(500).send(resultValidations);
   }
   //---despues de validar
   const { clientIdentification, carModel, purchaseFactors, testDriveRating, satisfactionRating } =
@@ -76,11 +76,72 @@ const surveyStore = async (req, res) => {
   }
 };
 //update
-const surveyUpdate = (req, res) => {
-  res.json({ mensaje: 'surveyUpdate' });
+const surveyUpdate = async (req, res) => {
+  await check('clientIdentification')
+    .isInt()
+    .notEmpty()
+    .withMessage('It (Client Identification) can not be empty ')
+    .run(req);
+  await check('carModel').notEmpty().withMessage('It (carModel) can not be empty ').run(req);
+  await check('purchaseFactors')
+    .notEmpty()
+    .isIn(['Reputation', 'Financing_options', 'Performance', 'Recommendations', 'Others'])
+    .withMessage('Select the enum options, It (purchaseFactors) can not be empty ')
+    .run(req);
+  await check('testDriveRating')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Values have to be from 0 to 5 ')
+    .run(req);
+  await check('satisfactionRating')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Values have to be from 0 to 5 ')
+    .run(req);
+
+  let resultValidations = validationResult(req);
+
+  //__________comprobando si el formlario es vacio
+  if (!resultValidations.isEmpty()) {
+    return res.status(500).send(resultValidations);
+  }
+
+  const id = req.params.id;
+  const { clientIdentification, carModel, purchaseFactors, testDriveRating, satisfactionRating } =
+    req.body;
+
+  try {
+    // Buscar la survey por su ID
+    const survey = await Survey.findByPk(id);
+
+    if (!survey) {
+      return res.status(404).json({ error: 'Survey not found' });
+    }
+
+    // Actualizar los campos deseados
+    survey.clientIdentification = clientIdentification;
+    survey.carModel = carModel;
+    survey.purchaseFactors = purchaseFactors;
+    survey.testDriveRating = testDriveRating;
+    survey.satisfactionRating = satisfactionRating;
+
+    // Guardar los cambios
+    await survey.save();
+
+    res.status(200).json({ mensaje: 'survey updated correct!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(`Server error below:\n ${error}`);
+  }
 };
 //destroy
-const surveyDestroy = (req, res) => {
+const surveyDestroy = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const survey = await Survey.findByPk(id);
+    if (!survey) {
+      return res.status(404).json({ error: 'Survey not found' });
+    }
+    await survey.destroy();
+  } catch (error) {}
   res.json({ mensaje: 'surveyDestroy' });
 };
 
