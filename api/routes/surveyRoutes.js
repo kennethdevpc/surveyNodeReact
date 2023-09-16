@@ -15,7 +15,7 @@ router.get('/checkConectionController', checkConection);
 //_______finInDevelopment
 
 router.get('/survey', surveyIndex);
-router.post('/survey2', surveyStore);
+router.post('/survey', surveyStore);
 router.put('/survey/edit/:id', surveyUpdate);
 router.delete('/survey/delete/:id', surveyDestroy);
 

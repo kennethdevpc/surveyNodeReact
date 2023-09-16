@@ -1,11 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../config/db.js';
 const Survey = db.define('surveys', {
-  //idCliente
-  clientId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
+  //idCliente por defecto
   //identificacionCliente
   clientIdentification: {
     type: DataTypes.STRING,
@@ -18,16 +14,35 @@ const Survey = db.define('surveys', {
   },
   //factoresCompra
   purchaseFactors: {
-    type: DataTypes.TEXT,
+    type: DataTypes.ENUM(
+      // Utilizar ENUM para opciones predefinidas
+      'Reputation',
+      'Financing_options',
+      'Performance',
+      'Recommendations',
+      'Others'
+    ),
+    allowNull: false,
   },
+
   //calificacionPruebaManejo
   testDriveRating: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 1, // Validar que esté dentro del rango de 1 a 5
+      max: 5,
+    },
   },
   //calificacionSatisfaccion
   satisfactionRating: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 1, // Validar que esté dentro del rango de 1 a 5
+      max: 5,
+    },
   },
 });
 
-export default Usuario;
+export default Survey;

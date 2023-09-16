@@ -16,7 +16,7 @@ const port = process.env.PORT || 3200;
   try {
     await db.authenticate();
     console.log('Connection established successfully.');
-    await db.sync({ force: false }); // sync sincroniza los objetos del modelo con las tablas correspondientes en tu base de datos.
+    await db.sync({ force: true }); // sync sincroniza los objetos del modelo con las tablas correspondientes en tu base de datos.
     console.log(`Models synced successfully. \n Server: http://localhost:${port}/`);
   } catch (err) {
     console.error(`Failed to connect or sync: ${err}`);
