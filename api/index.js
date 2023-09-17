@@ -4,6 +4,7 @@ import cors from 'cors'; // const cors = require('cors');
 import db from './config/db.js';
 import surveyRoutes from './routes/surveyRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import { authentication } from './middlewares/auth.js';
 
 const app = express();
 app.use(cors());
@@ -28,7 +29,7 @@ const port = process.env.PORT || 3200;
 app.get('/', (req, res) => {
   res.json({ mensaje: 'Checkin conextion' });
 });
-app.use('/market', surveyRoutes);
+app.use('/market', authentication, surveyRoutes);
 app.use('/auth', userRoutes);
 
 //conexion-------
