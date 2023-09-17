@@ -6,9 +6,10 @@ import {
   surveyUpdate,
   surveyDestroy,
 } from '../controllers/surveyController.js';
+import { authentication } from '../middlewares/auth.js';
 const router = express.Router();
 //_______inDevelopment
-router.get('/checkConectionRoutes', (req, res) => {
+router.get('/checkConectionRoutes', authentication, (req, res) => {
   res.json({ mensaje: 'route survey conected' });
 });
 router.get('/checkConectionController', checkConection);

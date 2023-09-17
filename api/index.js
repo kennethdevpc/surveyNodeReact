@@ -3,6 +3,7 @@ import express from 'express'; // E
 import cors from 'cors'; // const cors = require('cors');
 import db from './config/db.js';
 import surveyRoutes from './routes/surveyRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 app.use(cors());
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
   res.json({ mensaje: 'Checkin conextion' });
 });
 app.use('/market', surveyRoutes);
+app.use('/auth', userRoutes);
 
 //conexion-------
 app.listen(port, () => {

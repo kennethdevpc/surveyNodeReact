@@ -2,7 +2,6 @@ import Survey from '../models/Survey.js';
 import { check, validationResult } from 'express-validator';
 
 //-------
-const notesCtrl = {};
 
 const checkConection = (req, res) => {
   res.json({ mensaje: 'Conection with controller ok' });
