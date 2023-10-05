@@ -1,0 +1,31 @@
+1) para intalar:
+npx create-react-app notes-app --template typescript
+
+2) para interfaces:
+  interface Survey {
+    id: number;
+    title: string;
+    description: string;
+    completed: boolean;
+  }
+
+3) Para declaracion de un useState con arreglo de propiedad Survey:
+  const [surveys, setSurveys] = useState<Survey[]>([
+      {
+        id: 1,
+        title: 'titlexx',
+        description: 'LEran much',
+        completed: false,
+      }
+    ])
+
+4) importacion de bootswatch en el index: 
+  u: appTf/notes-app/src/index.tsx
+  s:
+    import 'bootswatch/dist/yeti/bootstrap.min.css';
+
+%) estilo en linea:
+  s:
+    //-------------estilo bootstrap
+    <div className="bg-dark text-white" style={{ height: '100vh' }}>
+    </div>
