@@ -1,36 +1,43 @@
-import React, { ChangeEvent, useState } from 'react';
-// import { AiOutlinePlus } from 'react-icons/ai';
-//type HandleInputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { Survey } from '../interfaces/Survey.interface';
+interface Props {
+  addANewTask: (survey: Survey) => void;
+}
+type HandleInputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-export default function TaskForm() {
-  const [task, setTask] = useState({
-    title: '',
-    description: '',
-  });
+const inititalState = {
+  title: '',
+  description: '',
+};
+export default function SurveyForm({ addANewTask }: Props) {
+  const [survey, setSurvey] = useState(inititalState);
 
   // const handleInputChange = ({ target: { name, value } }: HandleInputChange) =>
-  //   setTask({ ...task, [name]: value });
-
-  const handleInputChange = () => {
-    console.log('hola');
+  //   setSurvey({ ...survey, [name]: value });
+  //Forma ken:
+  const handleInputChange = (e: HandleInputChange) => {
+    console.log(e.target.name, e.target.value);
+    setSurvey({ ...survey, [e.target.name]: e.target.value });
+  };
+  const handleNewTask = (e: FormEvent<HTMLFormElement>): any => {
+    e.preventDefault();
+    addANewTask(survey);
+    setSurvey(inititalState);
   };
   return (
     <div className="card card-body bg-secondary text-dark">
       <h1>Add a Survey</h1>
-      {/* 
-      <form
-        onSubmit={(e) => {
-          console.log(e);
-        }}
-      >
+
+      <form onSubmit={handleNewTask}>
         <input
           type="text"
           placeholder="Write a Title"
           name="title"
           onChange={(e) => {
-            console.log(e);
+            handleInputChange(e);
           }}
-          value={task.title}
+          value={survey.title}
           className="form-control mb-3 rounded-0 shadow-none border-0"
         />
         <textarea
@@ -38,12 +45,13 @@ export default function TaskForm() {
           name="description"
           className="form-control mb-3 shadow-none border-0"
           placeholder="Write a Description"
-          value={task.description}
+          value={survey.description}
         ></textarea>
         <button type="submit" onClick={(e) => {}} className="btn btn-primary">
-          Save <AiOutlinePlus />
+          Save
+          <AiOutlinePlus />
         </button>
-      </form> */}
+      </form>
     </div>
   );
 }

@@ -29,3 +29,14 @@ npx create-react-app notes-app --template typescript
     //-------------estilo bootstrap
     <div className="bg-dark text-white" style={{ height: '100vh' }}>
     </div>
+
+
+5)definicion de funcion y : any ahi se podria colocar que devuelve en vez
+de "any", que devuelve un "void " o un "string", deende de lo que retorne
+
+  const handleNewTask = (e: FormEvent<HTMLFormElement>): any => {
+    e.preventDefault();
+    addANewTask(task);
+    setTask(inititalState);
+    titleInput.current?.focus();
+  };
